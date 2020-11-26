@@ -16,6 +16,7 @@ class Parse5ka:
 
     def __init__(self, start_url):
         self.start_url = start_url
+        self.catalog_url = 'https://5ka.ru/api/v2/categories/'
 
     @staticmethod
     def _get(*args, **kwargs) -> requests.Response:
@@ -29,10 +30,18 @@ class Parse5ka:
             except Exception:
                 time.sleep(0.25)
 
-    def parse(self, url):
+    def parse_catalogs(self, url):
+        #params = self._params
+        response: requests.Response = self._get(url, headers=self._headers)
+        data = response.json()
+        return data
+
+
+    def parse(self, url, cat = ""):
         params = self._params
+        params['categories'] = cat
         while url:
-            response: requests.Response = self._get(url, params=params, headers=self._headers)
+            response: requests.Response = self._get(url, params=params , headers=self._headers)
             if params:
                 params = {}
             data: dict = response.json()
@@ -40,16 +49,22 @@ class Parse5ka:
             yield data.get('results')
 
     def run(self):
-        for products in self.parse(self.start_url):
-            for product in products:
-                self._save_to_file(product)
-            time.sleep(0.1)
+        catalog_dict = self.parse_catalogs(self.catalog_url)
+
+        for category in catalog_dict:
+            category['products'] = []
+            for products in self.parse(self.start_url, category['parent_group_code']):
+                for product in products:
+                    category['products'].append(product)
+                time.sleep(0.1)
+            if len(category['products']) > 0:
+                self._save_to_file(category)
 
     @staticmethod
-    def _save_to_file(product):
-        path = Path(os.path.dirname(__file__)).joinpath('products').joinpath(f'{product["id"]}.json')
+    def _save_to_file(category):
+        path = Path(os.path.dirname(__file__)).joinpath('products').joinpath(f'{category["parent_group_code"]}.json')
         with open(path, 'w', encoding='UTF-8') as file:
-            json.dump(product, file, ensure_ascii=False)
+            json.dump(category, file, ensure_ascii=False)
 
 
 if __name__ == '__main__':
