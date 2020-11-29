@@ -105,7 +105,7 @@ class MagnitParse:
 
     def save(self, product):
         collection = self.db['magnit_11']
-        #collection.insert_one(product)
+        collection.insert_one(product)
 
 
 
