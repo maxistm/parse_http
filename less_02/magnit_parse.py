@@ -70,7 +70,7 @@ class MagnitParse:
 
 
     def parse_date(self, soup, fromto):
-        months = dict(января=1, февраля=2, марта=3, апреля=4, мая=5, июня=6, ноября=11, декабря=12)
+        months = dict(января=1, февраля=2, марта=3, апреля=4, мая=5, июня=6, июля=7, августа=8, сентября=9, октября=10, ноября=11, декабря=12)
         date_text = soup.find('div', attrs={'class': 'card-sale__date'}).text
         only = 0
         if 'только' in date_text:
