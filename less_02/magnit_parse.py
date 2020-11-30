@@ -80,10 +80,10 @@ class MagnitParse:
 
         day = int(date_text.split()[1])
         mounth = months[date_text.split()[2]]
-        year = datetime.date.today().year
-        result_date = datetime.date(year, mounth, day)
-        if (fromto == 2 or only == 1) and result_date < datetime.date.today():
-            result_date = datetime.date(result_date.year + 1, result_date.month, result_date.day)
+        year = datetime.datetime.today().year
+        result_date = datetime.datetime(year, mounth, day)
+        if (fromto == 2 or only == 1) and result_date < datetime.datetime.today():
+            result_date = datetime.datetime(result_date.year + 1, result_date.month, result_date.day)
         return result_date
 
     def parse(self, soup):
