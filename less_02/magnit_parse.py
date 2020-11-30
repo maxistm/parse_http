@@ -108,7 +108,6 @@ class MagnitParse:
         collection.insert_one(product)
 
 
-
 if __name__ == '__main__':
     parser = MagnitParse('https://magnit.ru/promo/?geo=moskva')
     parser.run()
