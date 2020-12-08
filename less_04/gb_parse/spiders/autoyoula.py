@@ -5,7 +5,7 @@ from urllib.parse import unquote
 import json, re
 import requests
 import dotenv, os
-
+import base64
 
 
 class AutoyoulaSpider(scrapy.Spider):
@@ -63,12 +63,28 @@ class AutoyoulaSpider(scrapy.Spider):
         
 
     def get_phone(self, response):
+        
+        #первый способ через мобильный вид:
+        """
         mobile_header = {
                 'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'
                 }
         request_object = requests.get(url = response.url, headers = mobile_header)
         response_object = scrapy.Selector(text = request_object.text)
         return response_object.css('.advert__call a').xpath('@href').get().replace('tel:','')
+        """
+
+        #второй подсказали декодировку
+
+        script = response.css('script:contains("window.transitState = decodeURIComponent")::text').get()
+        re_str = re.compile(r"phone%22%2C%22([0-9|a-zA-Z]+)Xw%3D%3D%22%2C%22time")
+        
+        result = re.findall(re_str, script)
+        phone = base64.b64decode(base64.b64decode(result[0])).decode("utf-8") 
+        return phone
+
+
+
 
     def get_author(self, response):
         script = response.css('script:contains("window.transitState = decodeURIComponent")::text').get()
