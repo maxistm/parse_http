@@ -25,7 +25,6 @@ def specifications_out(data: list):
     return result
 
 
-
 class AutoYoulaLoader(ItemLoader):
     default_item_class = AutoYoulaItem
     title_out = TakeFirst()
@@ -36,18 +35,29 @@ class AutoYoulaLoader(ItemLoader):
     specifications_in = MapCompose(get_specifications)
     specifications_out = specifications_out
 
+
 def salary_out(data):
-    return ''.join(data).replace('\xa0',' ')
+    return ''.join(data).replace('\xa0', ' ')
+
 
 def description_out(data):
-    return ' '.join(data).replace('\xa0',' ') 
+    return ' '.join(data).replace('\xa0', ' ')
+
 
 def descriptionv_out(data):
-    return ' '.join(data).replace('\xa0',' ')  
+    return ' '.join(data).replace('\xa0', ' ')
+
 
 def skills_out(data):
-
     return data
+
+
+def vacancies_out(data):
+    dic_vacancies = []
+    if 'vacancies' in data[0]:
+        for vac in data[0]['vacancies']:
+            dic_vacancies.append(vac['links']['desktop'])
+    return dic_vacancies
 
 
 class HhunterVacancyLoader(ItemLoader):
@@ -65,4 +75,4 @@ class HhunterCompanyLoader(ItemLoader):
     title_out = TakeFirst()
     official_url_out = TakeFirst()
     description_out = descriptionv_out
-    vacancies_out = skills_out
+    vacancies_out = vacancies_out
