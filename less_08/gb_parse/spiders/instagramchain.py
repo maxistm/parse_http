@@ -96,7 +96,7 @@ class InstagramChainSpider(scrapy.Spider):
             v = queue.pop() # abj[v] - соседи v
             #requests. response.follow(f'/{self.users[0]}/', callback=self.user_page_parse, cb_kwargs={'find_user': self.users[1]})
 
-            for neighbor in adj[v]:
+            for neighbor in s[v]:
                 # если сосед не посещался
                 if neighbor.visited == False:
                     # добавляем его в очередь
