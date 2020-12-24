@@ -52,6 +52,7 @@ class InstagramFollowSpider(scrapy.Spider):
         yield from self.get_api_follow_request(response, user_data)
         yield from self.get_api_followers_request(response, user_data)
 
+
     def get_api_follow_request(self, response, user_data, variables=None):
         if not variables:
             variables = {
