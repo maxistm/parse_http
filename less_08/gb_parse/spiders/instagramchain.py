@@ -100,6 +100,7 @@ class InstagramChainSpider(scrapy.Spider):
             #    date_parse=dt.datetime.utcnow(),
             #    data=user['node']
             #)
+        print(self.next_level[user_data['username']])
 
 
     def get_api_followers_request(self, response, user_data, variables=None):
@@ -139,6 +140,7 @@ class InstagramChainSpider(scrapy.Spider):
                 data=user['node']
             )
             """
+        print(self.next_level[user_data['username']])
 
 
     @staticmethod

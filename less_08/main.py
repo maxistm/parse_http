@@ -74,10 +74,10 @@ def bfs(s, t):
     # t - пункт назначения
     users = {}
     # инициализируем очередь
-    queue = []
+    queue=Queue()
     # добавляем s в очередь
 
-    queue.append(s)
+    queue.put(s)
     # помечаем s как посещенную вершину во избежание повторного добавления в очередь
   
     visited_users.append(s)
@@ -86,15 +86,15 @@ def bfs(s, t):
     run_spider(users, frends)
     #get_next_freinds(users, frends)
 
-    while len(queue) > 0:
+    while not queue.empty():
         # удаляем первый (верхний) элемент из очереди
-        v = queue.pop() 
+        v = queue.get() 
         path.append(v)
         for friend in users[v]:
             # если friend не посещался
             if friend not in visited_users:
                 # добавляем его в очередь
-                queue.append(friend)
+                queue.put(friend)
                 # помечаем вершину как посещенную
                 visited_users.append(friend)
                 
