@@ -110,26 +110,19 @@ class InstagramChainSpider(scrapy.Spider):
         return frends
     
             
-        # при условии, что мы имеем дело со смежным списком
-        # например, таким: adj = {A: [B,C], B:[D,F], ... }
-    def closed(self, reason): 
-        #resp = requests.post("http://localhost:6800/schedule.json", data={'project': "default", 'spider': self.name})
-        yield scrapy.Request(self.start_urls[0], callback=self.parse)#, errback=self.handle_error)
 
     def handle_error(self, failure):
         self.log("Error Handle: %s" % failure.request)
         self.log("Sleeping 60 seconds")
 
     def spider_closed(self, spider):
-        scrapy.Request(self.start_urls[0], callback=self.parse, errback=self.handle_error, dont_filter=True)#, errback=self.handle_error)
+        pass
+        #scrapy.Request(self.start_urls[0], callback=self.parse, errback=self.handle_error, dont_filter=True)#, errback=self.handle_error)
         #resp = requests.post("http://localhost:6800/schedule.json", data={'project': "default", 'spider': self.name})
       
     def check_finish(self, next_level, user):
         try:
-            #count_all_folow = next_level[user]['count_follow']
-            #count_all_folowers = next_level[user]['count_followers']
             if next_level[user]['next_follow_none']  == 1 and next_level[user]['next_followers_none'] == 1:
-                #if count_all_folow == 0 and count_all_folowers == 0 :
                 for key, value in next_level.items():
                     self.users[key] = self.double_link(value)
                 return True
