@@ -46,6 +46,12 @@ class Insta(scrapy.Item):
     data = scrapy.Field()
     img = scrapy.Field()
 
+class InstaChain(scrapy.Item):
+    _id = scrapy.Field()
+    chain = scrapy.Field()
+    start_user = scrapy.Field()
+    end_user = scrapy.Field()
+
 
 class InstaTag(Insta):
     pass

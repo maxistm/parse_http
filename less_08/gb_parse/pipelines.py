@@ -19,17 +19,9 @@ class GbParsePipeline:
     def process_item(self, item, spider):
         if spider.db_type == 'MONGO':
             collection_name = spider.name
-            if type(item) == InstaUser:
-                collection_name += '_'+'User'
-                collection = self.db[collection_name]
-                collection.update_one({'_id':item['_id']}, {'$set':item}, upsert=True)
-                return item    
-            elif type(item) == InstaFollower:
-                collection_name += '_'+'InstaFollower'
-            else:
-                collection_name += '_'+'InstaFollow'
+            collection_name += '_'+'InstaChain'
             collection = self.db[collection_name]
-            collection.insert_one(item)
+            #collection.insert_one(item)
         return item
 
 
